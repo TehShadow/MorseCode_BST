@@ -56,12 +56,10 @@ public:
     }
     string decode(string Code){
          Node *current = root;
-        std::cout<<"Visiting nodes:\n";
         int i=0;
         while (current->code != Code)
         { 
             if(current != nullptr){
-                std::cout<<"Letter:"<<current->code<<"\n";
 
                 //go to left tree
                 if(Code[i] == '.'){
@@ -82,6 +80,7 @@ public:
         return current->letter;
     }
 };
+
 
 int main(){
     struct alphaTree
@@ -104,7 +103,27 @@ int main(){
     {
         morse.Insert(tree[i].letter, tree[i].code);
     }
-    string letter;
-    letter = morse.decode("--..-..");
-    std::cout<<letter;
+
+    string input;
+    cout<<"Enter morse code: ";
+    cin>>input;
+
+
+    // spliting the string on "/"
+
+    std::string s = input;
+    std::string delimiter = "/";
+
+    size_t pos = 0;
+    std::string token;
+
+    while ((pos = s.find(delimiter)) != std::string::npos) {
+
+        token = s.substr(0, pos);
+        morse.decode(token);
+        s.erase(0, pos + delimiter.length());
+
 }
+    morse.decode(s);
+}
+
