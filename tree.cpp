@@ -1,5 +1,6 @@
 #include<iostream>
 using namespace std;
+using std::string;
 
 
 class BST
@@ -53,6 +54,33 @@ public:
             Insert(r,letter,code);
         }
     }
+    string decode(string Code){
+         Node *current = root;
+        std::cout<<"Visiting nodes:\n";
+        int i=0;
+        while (current->code != Code)
+        { 
+            if(current != nullptr){
+                std::cout<<"Letter:"<<current->code<<"\n";
+
+                //go to left tree
+                if(Code[i] == '.'){
+                    current = current->left;
+                }//else go to right
+                else{
+                    current = current->right;
+                } 
+                //not found
+                if(current ==nullptr){
+                    return "not in the tree(A-Z)";
+                }
+               
+            }
+             i++; 
+        }
+        std::cout<<"Letter found:"<<current->letter<<"\n";
+        return current->letter;
+    }
 };
 
 int main(){
@@ -76,4 +104,7 @@ int main(){
     {
         morse.Insert(tree[i].letter, tree[i].code);
     }
+    string letter;
+    letter = morse.decode("--..-..");
+    std::cout<<letter;
 }
