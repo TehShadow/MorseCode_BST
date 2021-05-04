@@ -78,11 +78,10 @@ public:
             }
              i++; 
         }
-        std::cout<<"Letter found:"<<current->letter<<"\n";
         return current->letter;
     }
     string encode(string Letter){
-         queue<Node*> q;
+        queue<Node*> q;
         Node *r = root;
          q.push(r);
          while(!q.empty()){
@@ -101,8 +100,8 @@ public:
 
 
 int getInput();
-string encode(BST x);
-string decode(BST x);
+void encode(BST x);
+void decode(BST x);
 
 
 int main(){
@@ -115,7 +114,7 @@ int main(){
     BST morse;
 
     alphaTree tree[] = {
-            {"ROOT", ""},  {"E", "."},    {"T", "-"},    {"I", ".."},   {"A", ".-"},   {"N", "-."},
+            {"_", "/"},  {"E", "."},    {"T", "-"},    {"I", ".."},   {"A", ".-"},   {"N", "-."},
             {"M", "--"},   {"S", "..."},  {"U", "..-"},  {"R", ".-."},  {"W", ".--"},  {"D", "-.."},
             {"K", "-.-"},  {"G", "--."},  {"O", "---"},  {"H", "...."}, {"V", "...-"}, {"F", "..-."},
             {"L", ".-.."}, {"P", ".--."}, {"J", ".---"}, {"B", "-..."}, {"X", "-..-"}, {"C", "-.-."},
@@ -148,19 +147,19 @@ int main(){
 }
 
 
-    // spliting the string on "/"
+    
 
 int getInput(){
     int choice;
     string logo = R"(
 
- _    _        _                                    _           
-| |  | |      | |                                  | |          
-| |  | |  ___ | |  ___   ___   _ __ ___    ___     | |_   ___   
-| |/\| | / _ \| | / __| / _ \ | '_ ` _ \  / _ \    | __| / _ \  
-\  /\  /|  __/| || (__ | (_) || | | | | ||  __/ _  | |_ | (_) | 
- \/  \/  \___||_| \___| \___/ |_| |_| |_| \___|( )  \__| \___/  
-                                               |/               
+ _    _        _                                  _           
+| |  | |      | |                                | |          
+| |  | |  ___ | |  ___   ___   _ __ ___    ___   | |_   ___   
+| |/\| | / _ \| | / __| / _ \ | '_ ` _ \  / _ \  | __| / _ \  
+\  /\  /|  __/| || (__ | (_) || | | | | ||  __/  | |_ | (_) | 
+ \/  \/  \___||_| \___| \___/ |_| |_| |_| \___|   \__| \___/  
+                                                             
                                                                 
 ___  ___                          _____             _           
 |  \/  |                         /  __ \           | |          
@@ -176,18 +175,31 @@ ___  ___                          _____             _
     cout<<"#1 Encode Morse\n";
     cout<<"#2 Decode Morse\n";
     cout<<"#0 Exit\n";
+    cout<<"Enter your choice(0-2): ";
     cin>>choice;
     return choice;
 }
 
 
 
+void encode(BST x){
+    cout<<"Enter a string to be turned to morse (use (_) for space): ";
+    string word;
+    string letter;
+    string code;
+    cin>>word;
+    cout<<"Your encoded message is : ";
+    for (int i=0;i<word.length();i++){
+        letter = toupper(word[i]);
+        code = x.encode(letter);
+        cout<<code;
+        cout<<" ";
+    }
+}
 
 
-
-string encode(BST x){
-    // spliting the string on "/"
-    cout<<"Enter a string to be turned to morse(letter/letter/letter):";
+void decode(BST x){
+    cout<<"Enter a string to be decoded from morse to letters(code/code/code):";
     string word;
     cin>>word;
 
@@ -195,45 +207,18 @@ string encode(BST x){
     std::string delimiter = "/";
 
     size_t pos = 0;
-    std::string token;
-
+    std::string letter;
+    cout<<"Your decoded message is : ";
     while ((pos = s.find(delimiter)) != std::string::npos) {
 
-        token = s.substr(0, pos);
-        string yo = x.encode(token);
-        cout<<yo;
+        letter = s.substr(0, pos);
+        string code = x.decode(letter);
+        cout<<code;
         s.erase(0, pos + delimiter.length());
 
 }
 
-    string sup = x.encode(s);
-    cout<<sup;
-}
-
-
-
-
-
-
-string decode(BST x){
-        cout<<"Enter a string to be decoded from morse to letters(code/code/code):";
-    string word;
-    cin>>word;
-
-    std::string s = word;
-    std::string delimiter = "/";
-
-    size_t pos = 0;
-    std::string token;
-
-    while ((pos = s.find(delimiter)) != std::string::npos) {
-
-        token = s.substr(0, pos);
-        string yo = x.decode(token);
-        s.erase(0, pos + delimiter.length());
-
-}
-
-    string sup = x.decode(s);
+    string finalLetter = x.decode(s);
+    cout<<finalLetter;
 }
 
